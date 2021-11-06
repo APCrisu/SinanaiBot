@@ -28,13 +28,17 @@ const wait = second =>
   // メッセージ受信
   bot.on("messageCreate", message => {
     if (message.author.id === bot.user.id) return;
-    message.reply("Hello, World!");
+    if (message.content.length <= 30) {
+      message.channel.send(`${message.content}ってなんだよwww`);
+    } else {
+      message.channel.send("ちょっと何言ってんかわかんないっす");
+    }
   });
 
   // 開始
-  bot.login(process.env.BOT_TOKEN);
+  await bot.login(process.env.BOT_TOKEN);
   server.get("/", (req, res) =>
     res.send(`<h1>${package.name} is working!</h1>`)
   );
   server.listen(3000, () => console.log("Ready to server!"));
-})();
+})().catch(console.error);
